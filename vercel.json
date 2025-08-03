@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "buildCommand": "cd client && npm run build",
+  "outputDirectory": "client/dist",
+  "installCommand": "npm install && cd client && npm install",
+  "functions": {
+    "api/upload-excel.js": {
+      "maxDuration": 30
+    }
+  }
+} 
