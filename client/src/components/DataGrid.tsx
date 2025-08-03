@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo } from 'react';
 import { Table, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { ExcelRow } from '../types';
@@ -31,11 +31,9 @@ const DataGrid: React.FC<DataGridProps> = ({ data, loading = false }) => {
 
   // Render status indicators
   const renderStatusCell = (value: any, record: ExcelRow, columnKey: string) => {
-    const statusKey = `${columnKey}_status`;
     const colorKey = `${columnKey}_color`;
     const typeKey = `${columnKey}_type`;
     
-    const status = record[statusKey] || '';
     const color = record[colorKey] || '#666666';
     const type = record[typeKey] || '';
 
@@ -129,7 +127,7 @@ const DataGrid: React.FC<DataGridProps> = ({ data, loading = false }) => {
         dataIndex: key,
         key: `col-${index}-${key}`,
         width: isSerialNumber ? 50 : isJobDetails ? 200 : isComments ? 150 : 120,
-        render: (text: any, record: ExcelRow, rowIndex: number) => {
+        render: (text: any, record: ExcelRow) => {
           const cellStyle = {
             padding: '3px 6px',
             minHeight: '24px',

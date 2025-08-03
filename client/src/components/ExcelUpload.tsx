@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Upload, message } from 'antd';
+import { message } from 'antd';
 
 interface ExcelUploadProps {
   onFileSelect: (file: File) => void;
@@ -37,7 +37,7 @@ const ExcelUpload: React.FC<ExcelUploadProps> = ({ onFileSelect, loading = false
     [onFileSelect]
   );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: {
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'],

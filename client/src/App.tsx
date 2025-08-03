@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { Layout, Typography, Space, Row, Col, Upload, Button, Spin, Alert } from 'antd';
-import { InboxOutlined, DownloadOutlined, PictureOutlined } from '@ant-design/icons';
+import { InboxOutlined, PictureOutlined } from '@ant-design/icons';
 import { useMutation } from '@tanstack/react-query';
 import html2canvas from 'html2canvas';
 import { uploadExcelFile } from './services/api';
