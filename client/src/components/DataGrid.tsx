@@ -29,25 +29,39 @@ const DataGrid: React.FC<DataGridProps> = ({ data, loading = false }) => {
     );
   }
 
-  // Render status indicators
+  // Render status indicators with enhanced colors
   const renderStatusCell = (value: any, record: ExcelRow, columnKey: string) => {
     const colorKey = `${columnKey}_color`;
     const typeKey = `${columnKey}_type`;
     
-    const color = record[colorKey] || '#666666';
+    const originalColor = record[colorKey] || '#666666';
     const type = record[typeKey] || '';
 
     // For time values, show just the text
     if (type === 'time' || (value && value.toString().includes(':'))) {
       return (
-        <span style={{ 
-          fontSize: '10px',
-          color: '#333',
-          fontWeight: '600' /* Made bold */
-        }}>
+        <span 
+          className="status-text"
+          style={{ 
+            fontSize: '10px',
+            color: '#333',
+            fontWeight: '600',
+            whiteSpace: 'nowrap', // Prevent text wrapping
+            textAlign: 'center'
+          }}>
           {value || ''}
         </span>
       );
+    }
+
+    // Enhanced darker colors for better contrast against light backgrounds
+    let statusColor = originalColor;
+    if (type === 'error') {
+      statusColor = '#D32F2F'; // Dark red for better contrast
+    } else if (type === 'warning') {
+      statusColor = '#F57C00'; // Dark orange for better contrast
+    } else if (type === 'success') {
+      statusColor = '#388E3C'; // Dark green for consistency
     }
 
     // For status values with colors
@@ -60,19 +74,26 @@ const DataGrid: React.FC<DataGridProps> = ({ data, loading = false }) => {
         padding: '1px 0'
       }}>
         <div
+          className="status-circle"
           style={{
-            width: '6px',
-            height: '6px',
+            width: '12px', // Much larger for mobile visibility
+            height: '12px',
             borderRadius: '50%',
-            backgroundColor: color,
-            flexShrink: 0
+            backgroundColor: statusColor,
+            flexShrink: 0,
+            boxShadow: '0 1px 3px rgba(0,0,0,0.2)', // Stronger shadow for depth
+            border: '1px solid rgba(255,255,255,0.3)' // Subtle border for definition
           }}
         />
-        <span style={{ 
-          fontSize: '10px',
-          color: '#333',
-          fontWeight: '600' /* Made bold */
-        }}>
+        <span 
+          className="status-text"
+          style={{ 
+            fontSize: '11px', // Slightly larger for better readability
+            color: '#333',
+            fontWeight: '600',
+            whiteSpace: 'nowrap', // Prevent text wrapping
+            textAlign: 'center'
+          }}>
           {value || ''}
         </span>
       </div>
@@ -126,12 +147,12 @@ const DataGrid: React.FC<DataGridProps> = ({ data, loading = false }) => {
         ),
         dataIndex: key,
         key: `col-${index}-${key}`,
-        width: isSerialNumber ? 50 : isJobDetails ? 200 : isComments ? 150 : 120,
+        width: isSerialNumber ? 50 : isJobDetails ? 200 : isComments ? 150 : 140,
         render: (text: any, record: ExcelRow) => {
           const cellStyle = {
             padding: '3px 6px',
-            minHeight: '24px',
-            fontSize: '11px',
+            minHeight: '26px',
+            fontSize: '12px',
             lineHeight: '1.2',
             color: '#202124',
             display: 'flex',
@@ -142,8 +163,8 @@ const DataGrid: React.FC<DataGridProps> = ({ data, loading = false }) => {
 
           if (isSerialNumber) {
             return (
-              <div style={{ ...cellStyle, justifyContent: 'center', background: '#F1F3F4', fontWeight: 500 }}>
-                <Text style={{ fontSize: '11px', color: '#5f6368' }}>
+              <div style={{ ...cellStyle, justifyContent: 'center', background: '#F1F3F4', fontWeight: 700 }}>
+                <Text style={{ fontSize: '14px', color: '#2C3E50', fontWeight: 700 }}>
                   {text}
                 </Text>
               </div>
@@ -167,9 +188,28 @@ const DataGrid: React.FC<DataGridProps> = ({ data, loading = false }) => {
             );
           }
 
-          // Status column
+          // Status column with highlighted background
+          const typeKey = `${key}_type`;
+          const type = record[typeKey] || '';
+          
+          let cellBackground = 'transparent';
+          if (type === 'error') {
+            cellBackground = '#FFEBEE'; // Light red background
+          } else if (type === 'warning') {
+            cellBackground = '#FFF8E1'; // Light yellow background  
+          }
+          
           return (
-            <div style={{ ...cellStyle, justifyContent: 'center' }}>
+            <div style={{ 
+              ...cellStyle, 
+              justifyContent: 'center',
+              backgroundColor: cellBackground,
+              borderRadius: '3px', // Subtle rounded corners for highlight
+              margin: '1px', // Small margin to show the highlight better
+              whiteSpace: 'nowrap', // Prevent text wrapping
+              overflow: 'hidden', // Hide overflow if needed
+              textOverflow: 'ellipsis', // Add ellipsis for very long text
+            }}>
               {renderStatusCell(text, record, key)}
             </div>
           );
@@ -363,23 +403,32 @@ const DataGrid: React.FC<DataGridProps> = ({ data, loading = false }) => {
           color: white !important;
         }
         
-        /* Job Details header - Blue background */
+        /* Job Details header - Professional navy background */
         .excel-table .ant-table-thead > tr > th:nth-child(2) {
-          background-color: #4F81BD !important;
+          background-color: #34495E !important;
           color: white !important;
+          font-size: 15px !important;
+          font-weight: 800 !important;
+          text-align: center !important;
         }
         
-        /* Time-based column headers - Red/Orange background */
+        /* Time-based column headers - Professional navy background */
         .excel-table .ant-table-thead > tr > th:not(:first-child):not(:nth-child(2)):not(:last-child) {
-          background-color: #C5504B !important;
+          background-color: #34495E !important;
           color: white !important;
+          font-size: 15px !important;
+          font-weight: 800 !important;
+          text-align: center !important;
         }
         
-        /* S.No and Comments headers - Light blue */
+        /* S.No and Comments headers - Professional navy */
         .excel-table .ant-table-thead > tr > th:first-child,
         .excel-table .ant-table-thead > tr > th:last-child {
-          background-color: #4F81BD !important;
+          background-color: #34495E !important;
           color: white !important;
+          font-size: 15px !important;
+          font-weight: 800 !important;
+          text-align: center !important;
         }
         
         /* Cell styling - compact Excel appearance with bold text */
@@ -450,11 +499,11 @@ const DataGrid: React.FC<DataGridProps> = ({ data, loading = false }) => {
         }
         
         .image-capture-mode .excel-table .ant-table-tbody > tr > td {
-          font-size: 10px !important;
+          font-size: 13px !important;
           font-weight: 600 !important; /* Bold text */
-          padding: 2px 6px !important;
-          min-height: 20px !important;
-          line-height: 1.2 !important;
+          padding: 4px 8px !important;
+          min-height: 24px !important;
+          line-height: 1.3 !important;
         }
         
         .image-capture-mode .excel-table .ant-table-tbody > tr > td:first-child {
@@ -463,15 +512,48 @@ const DataGrid: React.FC<DataGridProps> = ({ data, loading = false }) => {
           padding: 2px 6px !important;
         }
         
-        /* Bold status indicators for image */
-        .image-capture-mode .excel-table .ant-table-tbody > tr > td div {
-          font-size: 10px !important;
-          font-weight: 600 !important; /* Bold status text */
+        /* Larger text for image capture mode */
+        .image-capture-mode .status-text {
+          font-size: 14px !important;
+          font-weight: 700 !important;
+          white-space: nowrap !important;
+        }
+
+        /* Larger headers for image capture mode */
+        .image-capture-mode .excel-table .ant-table-thead > tr > th {
+          font-size: 22px !important;
+          font-weight: 900 !important;
+          white-space: nowrap !important;
+          padding: 8px 12px !important;
+        }
+
+        /* Larger first column (S.No) for image capture mode */
+        .image-capture-mode .excel-table .ant-table-tbody > tr > td:first-child .ant-typography {
+          font-size: 16px !important;
+          font-weight: 800 !important;
+        }
+
+        /* Larger Job Details column for image capture mode */
+        .image-capture-mode .excel-table .ant-table-tbody > tr > td:nth-child(2) .ant-typography {
+          font-size: 16px !important;
+          font-weight: 700 !important;
+          line-height: 1.3 !important;
+        }
+
+        /* Larger Job Details column content for image capture mode */
+        .image-capture-mode .excel-table .ant-table-tbody > tr > td:nth-child(2) {
+          font-size: 16px !important;
+          font-weight: 700 !important;
+          padding: 6px 8px !important;
+          line-height: 1.3 !important;
         }
         
-        .image-capture-mode .excel-table .ant-table-tbody > tr > td div > div[style*="border-radius"] {
-          width: 6px !important;
-          height: 6px !important;
+        /* Larger circles for image capture mode */
+        .image-capture-mode .status-circle {
+          width: 16px !important;
+          height: 16px !important;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.4) !important;
+          border: 2px solid rgba(255,255,255,0.6) !important;
         }
         
         /* Compact column widths for image capture */

@@ -168,7 +168,7 @@ function App() {
   return (
     <Layout style={{ minHeight: '100vh', background: '#f5f5f5' }}>
       <Header style={{ 
-        background: '#4472C4', 
+        background: '#2C3E50', 
         padding: '0 24px',
         boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
       }}>
@@ -194,7 +194,7 @@ function App() {
                     style={{
                       background: '#ffffff',
                       borderColor: '#ffffff',
-                      color: '#4472C4'
+                      color: '#2C3E50'
                     }}
                     size="middle"
                   >
@@ -228,7 +228,7 @@ function App() {
                   boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                   textAlign: 'center'
                 }}>
-                  <Title level={2} style={{ color: '#4472C4', marginBottom: '24px' }}>
+                  <Title level={2} style={{ color: '#2C3E50', marginBottom: '24px' }}>
                     Welcome to Excel Data Viewer
                   </Title>
                   <Text style={{ fontSize: '16px', color: '#666', display: 'block', marginBottom: '32px' }}>
@@ -241,14 +241,14 @@ function App() {
                     accept=".xlsx,.xls,.csv"
                     style={{
                       padding: '20px',
-                      border: '2px dashed #4472C4',
+                      border: '2px dashed #2C3E50',
                       borderRadius: '8px',
                       background: '#f8f9ff'
                     }}
                   >
                     <div style={{ padding: '20px' }}>
-                      <InboxOutlined style={{ fontSize: '48px', color: '#4472C4', marginBottom: '16px' }} />
-                      <Title level={4} style={{ color: '#4472C4', marginBottom: '8px' }}>
+                      <InboxOutlined style={{ fontSize: '48px', color: '#2C3E50', marginBottom: '16px' }} />
+                      <Title level={4} style={{ color: '#2C3E50', marginBottom: '8px' }}>
                         Drop your Excel file here or click to browse
                       </Title>
                       <Text style={{ color: '#666' }}>
@@ -289,8 +289,8 @@ function App() {
                 overflow: 'hidden'
               }}
             >
-              <div style={{ marginBottom: '16px', borderBottom: '2px solid #4472C4', paddingBottom: '16px' }}>
-                <Title level={4} style={{ margin: 0, color: '#4472C4' }}>
+              <div style={{ marginBottom: '16px', borderBottom: '2px solid #2C3E50', paddingBottom: '16px' }}>
+                <Title level={4} style={{ margin: 0, color: '#2C3E50' }}>
                   📈 {uploadInfo?.fileName}
                 </Title>
                 <Text style={{ color: '#666' }}>
